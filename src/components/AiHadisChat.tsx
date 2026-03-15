@@ -92,9 +92,11 @@ export default function AiHadisChat({ onClose }: AiHadisChatProps) {
     <div className="flex flex-col h-full w-full bg-white rounded-2xl shadow-2xl overflow-hidden">
       <div className="bg-darkblue text-white p-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="bg-turquoise p-2 rounded-lg">
-            <Bot className="w-6 h-6" />
-          </div>
+          <img 
+            src="https://i.postimg.cc/rMdkQQ6K/logo-syahmi.png" 
+            alt="AI Avatar" 
+            className="w-10 h-10 rounded-lg object-cover" 
+          />
           <div>
             <h2 className="font-bold text-lg">Ai Hadis Chatbot</h2>
             <p className="text-xs text-slate-300">Pembantu Penyelidikan Hadis</p>
@@ -117,9 +119,17 @@ export default function AiHadisChat({ onClose }: AiHadisChatProps) {
             className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             <div className={`flex gap-3 max-w-[85%] ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-              <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${msg.role === 'user' ? 'bg-turquoise text-white' : 'bg-darkblue text-white'}`}>
-                {msg.role === 'user' ? <User className="w-5 h-5" /> : <Bot className="w-5 h-5" />}
-              </div>
+              {msg.role === 'user' ? (
+                <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-turquoise text-white">
+                  <User className="w-5 h-5" />
+                </div>
+              ) : (
+                <img 
+                  src="https://i.postimg.cc/rMdkQQ6K/logo-syahmi.png" 
+                  alt="AI Avatar" 
+                  className="flex-shrink-0 w-8 h-8 rounded-full object-cover shadow-sm" 
+                />
+              )}
               <div 
                 className={`p-4 rounded-2xl ${
                   msg.role === 'user' 
@@ -141,9 +151,11 @@ export default function AiHadisChat({ onClose }: AiHadisChatProps) {
         {isLoading && (
           <div className="flex justify-start">
             <div className="flex gap-3 max-w-[85%] flex-row">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-darkblue text-white flex items-center justify-center">
-                <Bot className="w-5 h-5" />
-              </div>
+              <img 
+                src="https://i.postimg.cc/rMdkQQ6K/logo-syahmi.png" 
+                alt="AI Avatar" 
+                className="flex-shrink-0 w-8 h-8 rounded-full object-cover shadow-sm" 
+              />
               <div className="p-4 rounded-2xl bg-white border border-slate-200 text-slate-800 rounded-tl-none shadow-sm flex items-center gap-2">
                 <Loader2 className="w-5 h-5 animate-spin text-turquoise" />
                 <span className="text-sm text-slate-500">Sedang menaip...</span>

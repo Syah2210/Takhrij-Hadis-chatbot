@@ -79,9 +79,11 @@ export default function App() {
               className="flex items-center cursor-pointer transition transform hover:scale-105" 
               onClick={() => { setCurrentView('home'); setQuery(''); setResult(null); setError(''); setIsMobileMenuOpen(false); }}
             >
-              <div className="bg-turquoise text-white p-2 rounded-lg mr-3">
-                <BookOpen className="w-8 h-8" />
-              </div>
+              <img 
+                src="https://i.postimg.cc/rMdkQQ6K/logo-syahmi.png" 
+                alt="Logo Takhrij Hadis" 
+                className="w-12 h-12 rounded-lg mr-3 object-cover" 
+              />
               <div>
                 <h1 className="font-bold text-xl md:text-2xl tracking-wide">Takhrij Hadis.my</h1>
                 <p className="text-[10px] md:text-xs text-turquoise tracking-widest uppercase">Semak Sebelum Sebar</p>
@@ -147,18 +149,19 @@ export default function App() {
           <>
             {!result && !isLoading && (
               <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 flex flex-col items-center">
-            <h2 className="text-5xl md:text-7xl font-extrabold text-darkblue mb-4 leading-tight">
+            <h2 className="text-4xl sm:text-5xl md:text-7xl font-extrabold text-darkblue mb-3 sm:mb-4 leading-tight">
               BIAR YAKIN <br />
               <span className="text-turquoise">BARU SHARE</span>
             </h2>
             
-            <p className="text-slate-500 max-w-2xl text-lg mb-10">
+            <p className="text-slate-500 max-w-2xl text-base sm:text-lg mb-8 px-2">
               Semak dulu status hadis, matan, dan terjemahan. Elakkan penyebaran hadis palsu menggunakan teknologi AI yang dilatih dengan metodologi ilmu hadis muktabar.
             </p>
 
-            <div className="flex flex-wrap justify-center gap-4 mb-8 text-sm font-semibold text-slate-700">
-              <div className="bg-white px-4 py-2 rounded-full shadow-sm border border-slate-200 flex items-center">
-                Nak tahu status hadis dengan cepat? Jom guna <button onClick={() => setShowAiHadisModal(true)} className="text-turquoise hover:text-emerald-500 transition ml-1 font-bold">Ai Hadis</button>
+            <div className="flex flex-wrap justify-center gap-4 mb-8 text-sm font-semibold text-slate-700 w-full px-4 sm:px-0">
+              <div className="bg-white px-4 py-3 sm:py-2 rounded-2xl sm:rounded-full shadow-sm border border-slate-200 flex flex-col sm:flex-row items-center text-center">
+                <span>Nak tahu status hadis dengan cepat? Jom guna</span>
+                <button onClick={() => setShowAiHadisModal(true)} className="text-turquoise hover:text-emerald-500 transition sm:ml-1 font-bold mt-1 sm:mt-0">Ai Hadis</button>
               </div>
             </div>
           </div>
@@ -173,7 +176,7 @@ export default function App() {
               type="text" 
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="block w-full pl-14 pr-16 py-5 bg-darkblue border border-transparent rounded-full text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-turquoise focus:border-transparent text-lg shadow-lg transition" 
+              className="block w-full pl-12 sm:pl-14 pr-14 sm:pr-16 py-4 sm:py-5 bg-darkblue border border-transparent rounded-full text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-turquoise focus:border-transparent text-base sm:text-lg shadow-lg transition" 
               placeholder="Taip matan hadis atau kata kunci..."
               disabled={isLoading}
             />
@@ -187,16 +190,16 @@ export default function App() {
           </form>
 
           {!result && !isLoading && (
-            <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8">
+            <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mt-6 sm:mt-8 w-full px-4 sm:px-0">
               <button 
                 onClick={() => setShowFahamiModal(true)}
-                className="bg-turquoise text-darkblue font-bold py-3 px-8 rounded-full shadow hover:bg-emerald-400 transition"
+                className="bg-turquoise text-darkblue font-bold py-3 px-6 sm:px-8 rounded-full shadow hover:bg-emerald-400 transition w-full sm:w-auto"
               >
                 Jom Fahami hadis
               </button>
               <button 
                 onClick={() => setShowSupportModal(true)}
-                className="bg-white text-darkblue border-2 border-darkblue font-bold py-3 px-8 rounded-full shadow hover:bg-slate-50 transition"
+                className="bg-white text-darkblue border-2 border-darkblue font-bold py-3 px-6 sm:px-8 rounded-full shadow hover:bg-slate-50 transition w-full sm:w-auto"
               >
                 Jom Support Kami
               </button>
@@ -218,54 +221,54 @@ export default function App() {
           <div className="w-full max-w-4xl bg-white rounded-3xl shadow-xl border border-slate-200 mb-20 text-left animate-in fade-in slide-in-from-bottom-8 duration-700 overflow-hidden">
             
             {/* Header Section */}
-            <div className="p-8 border-b border-slate-100">
-              <div className="flex justify-between items-center mb-6">
+            <div className="p-6 sm:p-8 border-b border-slate-100">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4 sm:gap-0">
                 <div className={`px-4 py-1.5 rounded-full border font-bold text-sm flex items-center gap-2 ${getStatusColor(result.status)}`}>
                   <AlertCircle className="w-4 h-4" />
                   {(result.status || 'TIDAK DIKETAHUI').toUpperCase()}
                 </div>
                 <button 
                   onClick={copyToClipboard}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 transition text-sm font-medium"
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 transition text-sm font-medium w-full sm:w-auto justify-center"
                 >
                   <Copy className="w-4 h-4" />
                   Copy Text
                 </button>
               </div>
-              <p className="text-xs text-slate-400 font-semibold tracking-widest uppercase mb-6">ANALISIS TAKHRIJ</p>
+              <p className="text-xs text-slate-400 font-semibold tracking-widest uppercase mb-4 sm:mb-6">ANALISIS TAKHRIJ</p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {result.pandanganJumhur && (
-                  <div className="bg-slate-50 rounded-xl p-5 border-l-4 border-yellow-500 flex justify-between items-start">
+                  <div className="bg-slate-50 rounded-xl p-4 sm:p-5 border-l-4 border-yellow-500 flex justify-between items-start">
                     <div>
                       <p className="text-yellow-600 text-xs font-bold tracking-wider uppercase mb-1">PANDANGAN JUMHUR</p>
-                      <h3 className="text-2xl font-extrabold text-slate-800 mb-2">{result.pandanganJumhur.label}</h3>
+                      <h3 className="text-xl sm:text-2xl font-extrabold text-slate-800 mb-2">{result.pandanganJumhur.label}</h3>
                       <p className="text-slate-500 text-sm">{result.pandanganJumhur.description}</p>
                     </div>
-                    <AlertTriangle className="w-6 h-6 text-yellow-500 flex-shrink-0" />
+                    <AlertTriangle className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-500 flex-shrink-0 mt-1" />
                   </div>
                 )}
                 {result.statusTertinggi && (
-                  <div className="bg-slate-50 rounded-xl p-5 border-l-4 border-blue-500 flex justify-between items-start">
+                  <div className="bg-slate-50 rounded-xl p-4 sm:p-5 border-l-4 border-blue-500 flex justify-between items-start">
                     <div>
                       <p className="text-blue-600 text-xs font-bold tracking-wider uppercase mb-1">STATUS TERTINGGI</p>
-                      <h3 className="text-2xl font-extrabold text-slate-800 mb-2">{result.statusTertinggi.label}</h3>
+                      <h3 className="text-xl sm:text-2xl font-extrabold text-slate-800 mb-2">{result.statusTertinggi.label}</h3>
                       <p className="text-slate-500 text-sm">{result.statusTertinggi.description}</p>
                     </div>
-                    <CheckCircle className="w-6 h-6 text-blue-500 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500 flex-shrink-0 mt-1" />
                   </div>
                 )}
               </div>
             </div>
 
             {/* Matan & Terjemahan */}
-            <div className="p-8 border-b border-slate-100">
-              <div className="flex items-center gap-2 text-slate-400 font-semibold tracking-widest uppercase text-xs mb-6">
+            <div className="p-6 sm:p-8 border-b border-slate-100">
+              <div className="flex items-center gap-2 text-slate-400 font-semibold tracking-widest uppercase text-xs mb-4 sm:mb-6">
                 <Book className="w-4 h-4" />
                 MATAN HADIS (ARAB)
               </div>
-              <div className="bg-slate-50 rounded-2xl p-8 mb-8">
-                <p className="text-3xl md:text-4xl leading-loose text-right font-arabic text-slate-800" dir="rtl">
+              <div className="bg-slate-50 rounded-2xl p-5 sm:p-8 mb-6 sm:mb-8">
+                <p className="text-2xl sm:text-3xl md:text-4xl leading-loose text-right font-arabic text-slate-800" dir="rtl">
                   {result.matanArab}
                 </p>
 
@@ -315,18 +318,18 @@ export default function App() {
                 )}
               </div>
 
-              <div className="flex items-center gap-2 text-slate-400 font-semibold tracking-widest uppercase text-xs mb-6">
+              <div className="flex items-center gap-2 text-slate-400 font-semibold tracking-widest uppercase text-xs mb-4 sm:mb-6">
                 <Scale className="w-4 h-4" />
                 TERJEMAHAN MELAYU
               </div>
-              <p className="text-lg text-slate-600 leading-relaxed mb-8">
+              <p className="text-base sm:text-lg text-slate-600 leading-relaxed mb-6 sm:mb-8">
                 {result.terjemahanMelayu}
               </p>
             </div>
 
             {/* Sumber & Perawi */}
             {(result.sumberKitab?.length || result.perawiUtama?.length) && (
-              <div className="p-8 border-b border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="p-6 sm:p-8 border-b border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
                 {result.sumberKitab && result.sumberKitab.length > 0 && (
                   <div>
                     <div className="flex items-center gap-2 text-emerald-700 font-bold text-lg mb-4">
@@ -362,10 +365,10 @@ export default function App() {
 
             {/* Analisis Muqaranah */}
             {result.analisisMuqaranah && result.analisisMuqaranah.length > 0 && (
-              <div className="p-8 border-b border-slate-100">
-                <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-6 md:p-8">
-                  <div className="flex items-center gap-2 text-blue-800 font-bold text-xl mb-6">
-                    <GitMerge className="w-6 h-6" />
+              <div className="p-6 sm:p-8 border-b border-slate-100">
+                <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-5 sm:p-6 md:p-8">
+                  <div className="flex items-center gap-2 text-blue-800 font-bold text-lg sm:text-xl mb-4 sm:mb-6">
+                    <GitMerge className="w-5 h-5 sm:w-6 sm:h-6" />
                     Analisis Muqaranah (Perbandingan Lafaz)
                   </div>
                   <div className="space-y-6">
@@ -403,15 +406,15 @@ export default function App() {
 
             {/* Analisis Sanad & Hukum */}
             {result.ulasanTeknikalSanad && (
-              <div className="p-8 border-b border-slate-100">
-                <div className="bg-emerald-50/50 border border-emerald-100 rounded-2xl p-6 md:p-8">
-                  <div className="flex items-center gap-2 text-emerald-800 font-bold text-xl mb-6">
-                    <SearchCode className="w-6 h-6" />
+              <div className="p-6 sm:p-8 border-b border-slate-100">
+                <div className="bg-emerald-50/50 border border-emerald-100 rounded-2xl p-5 sm:p-6 md:p-8">
+                  <div className="flex items-center gap-2 text-emerald-800 font-bold text-lg sm:text-xl mb-4 sm:mb-6">
+                    <SearchCode className="w-5 h-5 sm:w-6 sm:h-6" />
                     Analisis Sanad & Hukum
                   </div>
-                  <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+                  <div className="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 shadow-sm">
                     <p className="text-xs font-bold text-slate-400 tracking-widest uppercase mb-3">ULASAN TEKNIKAL SANAD</p>
-                    <p className="text-slate-700 leading-relaxed">
+                    <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
                       {result.ulasanTeknikalSanad}
                     </p>
                   </div>
@@ -421,8 +424,8 @@ export default function App() {
 
             {/* Pandangan Ulama */}
             {result.pandanganUlama && result.pandanganUlama.length > 0 && (
-              <div className="p-8 border-b border-slate-100 bg-slate-50/50">
-                <div className="flex items-center gap-2 text-slate-400 font-semibold tracking-widest uppercase text-xs mb-6">
+              <div className="p-6 sm:p-8 border-b border-slate-100 bg-slate-50/50">
+                <div className="flex items-center gap-2 text-slate-400 font-semibold tracking-widest uppercase text-xs mb-4 sm:mb-6">
                   <Users className="w-4 h-4" />
                   PANDANGAN ULAMA
                 </div>
@@ -452,13 +455,13 @@ export default function App() {
 
             {/* Maksud Di Sebalik Hadis */}
             {result.maksudDiSebalikHadis && (
-              <div className="p-8 border-b border-slate-100">
-                <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-6 md:p-8">
-                  <div className="flex items-center gap-2 text-blue-800 font-bold text-xl mb-6">
-                    <Lightbulb className="w-6 h-6 text-blue-600" />
+              <div className="p-6 sm:p-8 border-b border-slate-100">
+                <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-5 sm:p-6 md:p-8">
+                  <div className="flex items-center gap-2 text-blue-800 font-bold text-lg sm:text-xl mb-4 sm:mb-6">
+                    <Lightbulb className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
                     Maksud Di Sebalik Hadis
                   </div>
-                  <div className="text-slate-700 leading-relaxed [&>p]:mb-4 [&>ul]:list-disc [&>ul]:pl-5 [&>ul>li]:mb-2 [&>h3]:font-bold [&>h3]:text-lg [&>h3]:mb-3 [&_strong]:text-blue-900">
+                  <div className="text-sm sm:text-base text-slate-700 leading-relaxed [&>p]:mb-4 [&>ul]:list-disc [&>ul]:pl-5 [&>ul>li]:mb-2 [&>h3]:font-bold [&>h3]:text-base sm:[&>h3]:text-lg [&>h3]:mb-3 [&_strong]:text-blue-900">
                     <Markdown>{result.maksudDiSebalikHadis}</Markdown>
                   </div>
                 </div>
@@ -467,10 +470,10 @@ export default function App() {
 
             {/* Syarah & Pengajaran */}
             {result.syarahDanPengajaran && (
-              <div className="p-8 border-b border-slate-100">
-                <div className="bg-indigo-50/50 border border-indigo-100 rounded-2xl p-6 md:p-8">
-                  <div className="flex items-center gap-2 text-indigo-800 font-bold text-xl mb-6">
-                    <Lightbulb className="w-6 h-6" />
+              <div className="p-6 sm:p-8 border-b border-slate-100">
+                <div className="bg-indigo-50/50 border border-indigo-100 rounded-2xl p-5 sm:p-6 md:p-8">
+                  <div className="flex items-center gap-2 text-indigo-800 font-bold text-lg sm:text-xl mb-4 sm:mb-6">
+                    <Lightbulb className="w-5 h-5 sm:w-6 sm:h-6" />
                     Syarah & Pengajaran
                   </div>
                   
