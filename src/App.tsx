@@ -6,7 +6,7 @@
 import React, { useState } from 'react';
 import Markdown from 'react-markdown';
 import { BookOpen, Search, CheckCircle, AlertCircle, Loader2, Copy, AlertTriangle, Scale, Book, Users, GitMerge, SearchCode, Lightbulb, List, AlignLeft, GraduationCap, GitCommitVertical, MessageSquare, Bookmark, Mail, X, Menu } from 'lucide-react';
-import { analyzeHadith, HadithResult } from './services/geminiService';
+import { analyzeHadith, HadithResult, getPerawiBiography } from './services/geminiService';
 import AiHadisChat from './components/AiHadisChat';
 
 export default function App() {
@@ -19,6 +19,23 @@ export default function App() {
   const [showFahamiModal, setShowFahamiModal] = useState(false);
   const [showAiHadisModal, setShowAiHadisModal] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [selectedPerawi, setSelectedPerawi] = useState<{nama: string, penerangan: string, statusPerawi?: string} | null>(null);
+  const [selectedPerawiBio, setSelectedPerawiBio] = useState<string[] | null>(null);
+  const [isLoadingBio, setIsLoadingBio] = useState(false);
+
+  const handlePerawiClick = async (perawi: {nama: string, penerangan: string, statusPerawi?: string}) => {
+    setSelectedPerawi(perawi);
+    setSelectedPerawiBio(null);
+    setIsLoadingBio(true);
+    try {
+      const bio = await getPerawiBiography(perawi.nama);
+      setSelectedPerawiBio(bio);
+    } catch (error) {
+      setSelectedPerawiBio(["Gagal memuat turun biografi."]);
+    } finally {
+      setIsLoadingBio(false);
+    }
+  };
 
   const handleSearch = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -283,7 +300,10 @@ export default function App() {
                     <div className="max-w-2xl mx-auto flex flex-col items-center">
                       {result.jalurSanad.map((perawi, idx) => (
                         <React.Fragment key={idx}>
-                          <div className="w-full bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex justify-between items-center">
+                          <div 
+                            className="w-full bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex justify-between items-center cursor-pointer hover:bg-slate-50 hover:shadow-md transition-all duration-200 transform hover:-translate-y-1"
+                            onClick={() => handlePerawiClick(perawi)}
+                          >
                             <span className={`font-bold ${
                               perawi.statusPerawi === 'DITOLAK' ? 'text-red-600' :
                               perawi.statusPerawi === 'DITERIMA' ? 'text-orange-500' :
@@ -298,7 +318,11 @@ export default function App() {
                                   perawi.penerangan.includes('SAHABAT') ? 'bg-emerald-100 text-emerald-800' : 
                                   perawi.penerangan.includes('MUKHARRIJ') ? 'bg-slate-200 text-slate-700' : 
                                   'bg-blue-100 text-blue-800'}`}>
-                                {perawi.penerangan}
+                                {perawi.statusPerawi === 'DITOLAK' ? 'Dhaif' :
+                                 perawi.statusPerawi === 'DITERIMA' ? 'Saduq' :
+                                 perawi.penerangan.includes('SAHABAT') ? 'Sahabat' :
+                                 perawi.penerangan.includes('MUKHARRIJ') ? 'Mukharrij' :
+                                 'Thiqah'}
                               </span>
                             )}
                           </div>
@@ -835,6 +859,71 @@ export default function App() {
           <p>Dibina oleh: <span className="text-turquoise font-medium">Muhammad Syahmi Aminuddin</span></p>
         </div>
       </footer>
+
+      {/* Perawi Modal */}
+      {selectedPerawi && (
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200"
+          onClick={() => setSelectedPerawi(null)}
+        >
+          <div 
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-200 max-h-[90vh] flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="p-6 overflow-y-auto custom-scrollbar">
+              <div className="flex justify-between items-start mb-4">
+                <h3 className="text-xl font-bold text-slate-800">{selectedPerawi.nama}</h3>
+                <button 
+                  onClick={() => setSelectedPerawi(null)}
+                  className="text-slate-400 hover:text-slate-600 transition-colors p-1 rounded-lg hover:bg-slate-100 flex-shrink-0"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              
+              <div className="mb-4">
+                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider
+                  ${selectedPerawi.statusPerawi === 'DITOLAK' ? 'bg-red-100 text-red-800' :
+                    selectedPerawi.statusPerawi === 'DITERIMA' ? 'bg-orange-100 text-orange-800' :
+                    selectedPerawi.penerangan.includes('SAHABAT') ? 'bg-emerald-100 text-emerald-800' : 
+                    selectedPerawi.penerangan.includes('MUKHARRIJ') ? 'bg-slate-200 text-slate-700' : 
+                    'bg-blue-100 text-blue-800'}`}
+                >
+                  {selectedPerawi.statusPerawi === 'DITOLAK' ? 'Dhaif' :
+                   selectedPerawi.statusPerawi === 'DITERIMA' ? 'Saduq' :
+                   selectedPerawi.penerangan.includes('SAHABAT') ? 'Sahabat' :
+                   selectedPerawi.penerangan.includes('MUKHARRIJ') ? 'Mukharrij' :
+                   'Thiqah'}
+                </span>
+              </div>
+              
+              <div className="text-slate-600 text-sm leading-relaxed">
+                <p className="mb-4 font-medium">{selectedPerawi.penerangan}</p>
+                
+                <div className="mt-4 pt-4 border-t border-slate-100">
+                  <h4 className="font-bold text-slate-800 mb-3 flex items-center gap-2">
+                    <Book className="w-4 h-4 text-turquoise" />
+                    Biografi Perawi
+                  </h4>
+                  
+                  {isLoadingBio ? (
+                    <div className="flex flex-col items-center justify-center py-6 text-slate-400">
+                      <Loader2 className="w-6 h-6 animate-spin mb-2 text-turquoise" />
+                      <span className="text-xs">Mencari maklumat biografi...</span>
+                    </div>
+                  ) : selectedPerawiBio ? (
+                    <ul className="list-disc pl-5 space-y-2">
+                      {selectedPerawiBio.map((point, i) => (
+                        <li key={i} className="text-slate-600">{point}</li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

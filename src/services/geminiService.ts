@@ -292,3 +292,46 @@ export async function chatWithAiHadis(message: string, history: {role: string, p
   }
 }
 
+export async function getPerawiBiography(namaPerawi: string): Promise<string[]> {
+  const prompt = `Anda adalah pakar Ilmu Rijal al-Hadith (Biografi Perawi Hadis).
+Berikan biografi ringkas dan tepat untuk perawi berikut: "${namaPerawi}".
+
+AMARAN: JANGAN BERHALUSINASI. Gunakan carian untuk memastikan ketepatan. Jika perawi ini tidak dikenali atau maklumat tidak jelas, nyatakan "Maklumat terperinci perawi tidak ditemui atau tidak dapat dipastikan."
+
+Sediakan maklumat dalam bentuk point (bullet points) merangkumi:
+- Nama penuh & Keturunan
+- Tahun lahir/wafat (jika ada)
+- Guru & Murid utama
+- Kedudukan/Kredibiliti (Al-Jarh wa al-Ta'dil)`;
+
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            biografi: {
+              type: Type.ARRAY,
+              items: { type: Type.STRING },
+              description: "Senarai fakta biografi perawi dalam bentuk point"
+            }
+          },
+          required: ["biografi"]
+        },
+        tools: [{ googleSearch: {} }],
+      }
+    });
+
+    let text = response.text || "{}";
+    text = text.replace(/^```json\s*/i, '').replace(/\s*```$/i, '').trim();
+    const parsed = JSON.parse(text);
+    return parsed.biografi || ["Maklumat biografi tidak ditemui."];
+  } catch (e: any) {
+    console.error("Failed to fetch biography", e);
+    return ["Gagal mendapatkan maklumat biografi pada masa ini. Sila cuba sebentar lagi."];
+  }
+}
+
