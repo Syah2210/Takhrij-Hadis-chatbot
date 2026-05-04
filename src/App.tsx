@@ -361,9 +361,17 @@ export default function App() {
                       Sumber Kitab (Takhrij)
                     </div>
                     <div className="space-y-2">
-                      {result.sumberKitab.map((kitab, idx) => (
-                        <div key={idx} className="bg-slate-50 border border-slate-100 rounded-lg p-3 text-slate-600 text-sm">
-                          • {kitab}
+                      {result.sumberKitab.map((item, idx) => (
+                        <div key={idx} className="bg-slate-50 border border-slate-100 rounded-lg p-3 text-slate-600 text-sm flex items-start gap-2">
+                          <CheckCircle className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                            <span className="font-semibold text-slate-800">{item.kitab}</span>
+                            {item.noHadis && item.noHadis !== '-' && item.noHadis.toLowerCase() !== 'tiada' && (
+                              <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 self-start sm:self-auto">
+                                No. Hadis: {item.noHadis}
+                              </span>
+                            )}
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -613,7 +621,7 @@ export default function App() {
               
               <div className="space-y-6 text-slate-600 leading-relaxed">
                 <p>
-                  Merupakan graduan daripada Universiti Islam Pahang Sultan Ahmad Shah (UniPSAS) dengan pengkhususan dalam bidang Al-Quran dan As-Sunnah. Inisiatif Takhrij Hadis.my ini adalah sebahagian daripada kajian lanjutan di peringkat Ijazah Sarjana (Master) yang memfokuskan kepada metodologi Takhrij Hadis kontemporari.
+                  Merupakan graduan daripada Universiti Al-Quran Al-Sultan Abdullah Ahmad Shah Pahang (UNIQSAAS) dengan pengkhususan dalam bidang Al-Quran dan As-Sunnah. Inisiatif Takhrij Hadis.my ini adalah sebahagian daripada kajian lanjutan di peringkat Ijazah Sarjana (Master) yang memfokuskan kepada metodologi Takhrij Hadis kontemporari.
                 </p>
                 <p>
                   Projek ini merupakan kesinambungan daripada penyelidikan intensif yang telah dimulakan sejak peringkat Ijazah Sarjana Muda, didorong oleh tekad untuk mengisi jurang kelompongan kritikal dalam aksesibiliti semakan status hadis di alam maya.
@@ -863,11 +871,11 @@ export default function App() {
       {/* Perawi Modal */}
       {selectedPerawi && (
         <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in"
           onClick={() => setSelectedPerawi(null)}
         >
           <div 
-            className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-200 max-h-[90vh] flex flex-col"
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-scale-up max-h-[90vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="p-6 overflow-y-auto custom-scrollbar">
